@@ -54,42 +54,61 @@ export default function TriagePage() {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Form */}
-        <div className="bg-card rounded-xl p-6 shadow-card border border-border space-y-5">
-          <h3 className="font-display font-semibold text-foreground">Patient Vitals</h3>
+        <div className="bg-card rounded-xl p-8 shadow-card border border-border space-y-8">
+          <h3 className="font-display text-lg font-semibold text-foreground">Patient Vitals</h3>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div><Label>Age</Label><Input type="number" value={vitals.age} onChange={e => setVitals(v => ({ ...v, age: +e.target.value }))} /></div>
-            <div><Label>Gender</Label>
-              <select className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" value={vitals.gender} onChange={e => setVitals(v => ({ ...v, gender: e.target.value as any }))}>
-                <option value="male">Male</option><option value="female">Female</option><option value="other">Other</option>
-              </select>
-            </div>
-            <div><Label>Systolic BP</Label><Input type="number" value={vitals.systolicBP} onChange={e => setVitals(v => ({ ...v, systolicBP: +e.target.value }))} /></div>
-            <div><Label>Diastolic BP</Label><Input type="number" value={vitals.diastolicBP} onChange={e => setVitals(v => ({ ...v, diastolicBP: +e.target.value }))} /></div>
-            <div><Label>Blood Sugar</Label><Input type="number" value={vitals.bloodSugar} onChange={e => setVitals(v => ({ ...v, bloodSugar: +e.target.value }))} /></div>
-            <div><Label>Temperature (°C)</Label><Input type="number" step="0.1" value={vitals.temperature} onChange={e => setVitals(v => ({ ...v, temperature: +e.target.value }))} /></div>
-            <div><Label>SpO2 (%)</Label><Input type="number" value={vitals.spo2} onChange={e => setVitals(v => ({ ...v, spo2: +e.target.value }))} /></div>
-            <div><Label>Heart Rate</Label><Input type="number" value={vitals.heartRate} onChange={e => setVitals(v => ({ ...v, heartRate: +e.target.value }))} /></div>
-            <div><Label>Symptom Duration (days)</Label><Input type="number" value={vitals.symptomDuration} onChange={e => setVitals(v => ({ ...v, symptomDuration: +e.target.value }))} /></div>
-            <div className="flex items-center gap-2 pt-6">
-              <Switch checked={vitals.pregnancyStatus} onCheckedChange={c => setVitals(v => ({ ...v, pregnancyStatus: c }))} />
-              <Label>Pregnant</Label>
+          {/* Demographics */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Demographics</p>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+              <div className="space-y-2"><Label>Age</Label><Input type="number" value={vitals.age} onChange={e => setVitals(v => ({ ...v, age: +e.target.value }))} /></div>
+              <div className="space-y-2"><Label>Gender</Label>
+                <select className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm" value={vitals.gender} onChange={e => setVitals(v => ({ ...v, gender: e.target.value as any }))}>
+                  <option value="male">Male</option><option value="female">Female</option><option value="other">Other</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-3 col-span-2 pt-1">
+                <Switch checked={vitals.pregnancyStatus} onCheckedChange={c => setVitals(v => ({ ...v, pregnancyStatus: c }))} />
+                <Label>Pregnant</Label>
+              </div>
             </div>
           </div>
 
+          <hr className="border-border" />
+
+          {/* Vitals */}
           <div>
-            <Label className="mb-2 block">Symptoms</Label>
-            <div className="grid grid-cols-2 gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Vital Signs</p>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+              <div className="space-y-2"><Label>Systolic BP</Label><Input type="number" value={vitals.systolicBP} onChange={e => setVitals(v => ({ ...v, systolicBP: +e.target.value }))} /></div>
+              <div className="space-y-2"><Label>Diastolic BP</Label><Input type="number" value={vitals.diastolicBP} onChange={e => setVitals(v => ({ ...v, diastolicBP: +e.target.value }))} /></div>
+              <div className="space-y-2"><Label>Blood Sugar (mg/dL)</Label><Input type="number" value={vitals.bloodSugar} onChange={e => setVitals(v => ({ ...v, bloodSugar: +e.target.value }))} /></div>
+              <div className="space-y-2"><Label>Temperature (°C)</Label><Input type="number" step="0.1" value={vitals.temperature} onChange={e => setVitals(v => ({ ...v, temperature: +e.target.value }))} /></div>
+              <div className="space-y-2"><Label>SpO2 (%)</Label><Input type="number" value={vitals.spo2} onChange={e => setVitals(v => ({ ...v, spo2: +e.target.value }))} /></div>
+              <div className="space-y-2"><Label>Heart Rate (bpm)</Label><Input type="number" value={vitals.heartRate} onChange={e => setVitals(v => ({ ...v, heartRate: +e.target.value }))} /></div>
+            </div>
+          </div>
+
+          <hr className="border-border" />
+
+          {/* Symptoms */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Symptoms</p>
+            <div className="grid grid-cols-2 gap-3">
               {symptomOptions.map(s => (
-                <label key={s.id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted cursor-pointer">
+                <label key={s.id} className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-colors">
                   <Checkbox checked={vitals.symptoms.includes(s.id)} onCheckedChange={() => handleSymptomToggle(s.id)} />
-                  <span className="text-sm">{s.label}</span>
+                  <span className="text-sm font-medium">{s.label}</span>
                 </label>
               ))}
             </div>
+            <div className="mt-5 space-y-2">
+              <Label>Symptom Duration (days)</Label>
+              <Input type="number" value={vitals.symptomDuration} onChange={e => setVitals(v => ({ ...v, symptomDuration: +e.target.value }))} />
+            </div>
           </div>
 
-          <Button onClick={handlePredict} size="lg" className="w-full text-base py-6">
+          <Button onClick={handlePredict} size="lg" className="w-full text-base py-6 mt-2">
             <Activity className="w-5 h-5 mr-2" /> Run Triage Prediction
           </Button>
         </div>
